@@ -111,6 +111,7 @@ typedef NSInteger JWFoldersOpenDirection;
 
 /* Closes the currently open folder. */
 - (void)closeCurrentFolder;
+- (void)closeCurrentFolder:(BOOL)animated;
 
 
 #pragma mark -

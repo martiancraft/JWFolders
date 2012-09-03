@@ -234,7 +234,12 @@ const CGFloat JWFoldersOpeningDuration = 0.4f;
 }
 
 - (void)performClose:(id)sender {
+    [self performClose:self animated:YES];
+}
+
+- (void)performClose:(id)sender animated:(BOOL)animated {
     BOOL up = (self.direction == JWFoldersOpenDirectionUp);
+    CGFloat animationDuration = animated ? JWFoldersOpeningDuration : 0;
     CAMediaTimingFunction *timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     CABasicAnimation *move = [CABasicAnimation animationWithKeyPath:@"position"];
     [move setValue:@"close" forKey:@"animationKey"];
@@ -242,7 +247,7 @@ const CGFloat JWFoldersOpeningDuration = 0.4f;
     [move setTimingFunction:timingFunction];
     move.fromValue = [NSValue valueWithCGPoint:[[(up) ? self.top.layer : self.bottom.layer presentationLayer] position]];
     move.toValue = [NSValue valueWithCGPoint:_folderPoint];
-    move.duration = JWFoldersOpeningDuration;
+    move.duration = animationDuration;
     [up ? self.top.layer : self.bottom.layer addAnimation:move forKey:nil];
     if (self.closeBlock) self.closeBlock(self.contentView, JWFoldersOpeningDuration, timingFunction);
     [(up) ? self.top.layer : self.bottom.layer setPosition:self.folderPoint];
@@ -305,7 +310,12 @@ const CGFloat JWFoldersOpeningDuration = 0.4f;
 }
 
 - (void)closeCurrentFolder {
-    [self performClose:self];
+    [self performClose:self animated:YES];
+}
+
+- (void)closeCurrentFolder:(BOOL)animated
+{
+    [self performClose:self animated:animated];
 }
 
 @end
